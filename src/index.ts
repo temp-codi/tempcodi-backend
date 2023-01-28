@@ -5,6 +5,6 @@ import validateEnv from '@/utils/envValidate';
 
 validateEnv();
 
-const app = new App([], 8280);
+const app = new App([], Number(process.env.PORT));
 
 app.listen();
