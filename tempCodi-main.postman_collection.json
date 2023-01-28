@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "daacc340-dc17-446c-877d-6dee4fcd669d",
+		"name": "tempCodi-main",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20623203"
+	},
+	"item": [
+		{
+			"name": "geolocation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lon\": \"139.818482\",\r\n    \"lat\": \"35.618791\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://tempcodi-backend.onrender.com/api/geolocation",
+					"protocol": "https",
+					"host": [
+						"tempcodi-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"geolocation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
