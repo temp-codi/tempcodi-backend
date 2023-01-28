@@ -3,11 +3,7 @@ import Controller from '@/utils/interfaces/controller';
 import validate from './geolocation.validation';
 import { reverseGeoApi } from '@/api/index';
 import { StatusCodes } from 'http-status-codes';
-import {
-    asyncWrapper,
-    validationMiddleware,
-    HttpException,
-} from '@/middlewares/index';
+import { asyncWrapper, validationMiddleware } from '@/middlewares/index';
 
 class GeolocationController implements Controller {
     public path = '/geolocation';
