@@ -22,18 +22,15 @@ const validationMiddleware = (schema: Joi.Schema): RequestHandler => {
             req.body = value;
             next();
         } catch (e: any) {
-            if (e.name === 'ValidationError') {
-                const errors: string[] = [];
-                e.details.forEach((error: Joi.ValidationErrorItem) => {
-                    errors.push(error.message);
-                });
-                const badRequest = new BadRequest(errors.join(', '), errors);
-                res.status(badRequest.statusCode).send({
-                    message: badRequest.errors,
-                });
-            } else {
-                next();
-            }
+            // check e.name (joi library => validationError, validationErrorItem => can see more details on error ex) path, message, type
+            const errors: string[] = [];
+            e.details.forEach((error: Joi.ValidationErrorItem) => {
+                errors.push(error.message);
+            });
+            const badRequest = new BadRequest(errors.join(', '), errors);
+            res.status(badRequest.statusCode).send({
+                message: badRequest.errors,
+            });
         }
     };
 };
