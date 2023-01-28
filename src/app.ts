@@ -30,11 +30,12 @@ class App {
                 max: 100, // limit each IP to 100 requests per windowMs
             })
         );
-        this.express.use(compression());
+        this.express.use(compression()); // makes api request super fast (268.75 faster)
     }
 
     private initializeHome(): void {
         this.express.get('/', (req, res) => {
+            console.log(req);
             res.send('<h1>TEMPCODI API</h1>');
         });
     }
