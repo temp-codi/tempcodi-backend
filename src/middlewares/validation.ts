@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import Joi from 'joi';
 import BadRequest from './bad-request';
-import NotFoundError from './not-found';
 
 const validationMiddleware = (schema: Joi.Schema): RequestHandler => {
     return async (
@@ -28,9 +27,12 @@ const validationMiddleware = (schema: Joi.Schema): RequestHandler => {
                 e.details.forEach((error: Joi.ValidationErrorItem) => {
                     errors.push(error.message);
                 });
-                throw new BadRequest(errors.join(', '));
+                const badRequest = new BadRequest(errors.join(', '), errors);
+                res.status(badRequest.statusCode).send({
+                    message: badRequest.errors,
+                });
             } else {
-                throw new NotFoundError(e.message);
+                next();
             }
         }
     };

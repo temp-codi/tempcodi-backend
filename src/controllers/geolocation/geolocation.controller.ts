@@ -23,13 +23,15 @@ class GeolocationController implements Controller {
             .post(validationMiddleware(validate.create), this.findCity);
     }
 
-    private findCity = asyncWrapper(async (req, res, next) => {
+    private findCity = asyncWrapper(async (req, res) => {
         try {
             const { lat, lon } = req.body;
             const cityInfo = await reverseGeoApi(lat, lon);
             return res.status(StatusCodes.OK).json({ cityInfo });
         } catch (err) {
-            throw new HttpException('Server Error');
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                message: 'problem with geolocation api - check bigDataCloud',
+            });
         }
     });
 }
