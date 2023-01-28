@@ -1,8 +1,13 @@
 import { Router } from 'express';
 import Controller from '@/utils/interfaces/controller';
-import asyncWrapper from '@/middlewares/async';
 import validate from './geolocation.validation';
-import validationMiddleware from '@/middlewares/validation';
+import { reverseGeoApi } from '@/api/index';
+import { StatusCodes } from 'http-status-codes';
+import {
+    asyncWrapper,
+    validationMiddleware,
+    HttpException,
+} from '@/middlewares/index';
 
 class GeolocationController implements Controller {
     public path = '/geolocation';
@@ -18,7 +23,15 @@ class GeolocationController implements Controller {
             .post(validationMiddleware(validate.create), this.findCity);
     }
 
-    private findCity = asyncWrapper(async (req, res, next) => {});
+    private findCity = asyncWrapper(async (req, res, next) => {
+        try {
+            const { lat, lon } = req.body;
+            const cityInfo = await reverseGeoApi(lat, lon);
+            return res.status(StatusCodes.OK).json({ cityInfo });
+        } catch (err) {
+            throw new HttpException('Server Error');
+        }
+    });
 }
 
 export default GeolocationController;

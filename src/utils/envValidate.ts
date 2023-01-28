@@ -1,6 +1,6 @@
 import { cleanEnv, str, port } from 'envalid';
 
-function validateEnv(): void {
+const validateEnv = (): void => {
     cleanEnv(process.env, {
         MONGO_URI: str(),
         WEATHER_API: str(),
@@ -9,6 +9,6 @@ function validateEnv(): void {
         OPEN_GPT_API_KEY: str(),
         PORT: port({ default: 3000 }),
     });
-}
+};
 
 export default validateEnv;

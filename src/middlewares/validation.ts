@@ -3,7 +3,7 @@ import Joi from 'joi';
 import BadRequest from './bad-request';
 import NotFoundError from './not-found';
 
-function validationMiddleware(schema: Joi.Schema): RequestHandler {
+const validationMiddleware = (schema: Joi.Schema): RequestHandler => {
     return async (
         req: Request,
         res: Response,
@@ -34,6 +34,6 @@ function validationMiddleware(schema: Joi.Schema): RequestHandler {
             }
         }
     };
-}
+};
 
 export default validationMiddleware;
