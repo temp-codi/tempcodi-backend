@@ -44,6 +44,7 @@
     "_moduleAliases": {
         "@/utils": "dist/utils",
         "@/controllers": "dist/controllers",
-        "@/middlewares": "dist/middlewares"
+        "@/middlewares": "dist/middlewares",
+        "@/api": "dist/api"
     }
 }
