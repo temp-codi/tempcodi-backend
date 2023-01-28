@@ -4,8 +4,14 @@ import cors from 'cors';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import compression from 'compression';
+const xss = require('xss-clean');
 import Controller from '@/utils/interfaces/controller';
 import { errorMiddleware } from '@/middlewares/index';
+// swagger
+import * as path from 'path';
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+
 class App {
     public express: Application;
     public port: number;
@@ -23,6 +29,7 @@ class App {
     private initializeMiddleware(): void {
         this.express.use(helmet());
         this.express.use(cors());
+        this.express.use(xss());
         this.express.use(morgan('dev'));
         this.express.use(express.json());
         this.express.use(express.urlencoded({ extended: false }));
@@ -34,12 +41,21 @@ class App {
             })
         );
         this.express.use(compression()); // makes api request super fast (268.75 faster)
+
+        // swagger
+        this.express.use(
+            '/api-docs',
+            swaggerUI.serve,
+            swaggerUI.setup(this.initializeSwagger())
+        );
     }
 
     private initializeHome(): void {
         this.express.get('/', (req, res) => {
             console.log(req);
-            res.send('<h1>TEMPCODI API</h1>');
+            res.send(
+                '<h1>TEMPCODI API</h1><a href="/api-docs">Documentation</a>'
+            );
         });
     }
 
@@ -51,6 +67,10 @@ class App {
 
     private initializeErrorHandling(): void {
         this.express.use(errorMiddleware);
+    }
+
+    private initializeSwagger() {
+        return YAML.load(path.join(__dirname, '../build/swagger.yaml'));
     }
 
     public listen(): void {
