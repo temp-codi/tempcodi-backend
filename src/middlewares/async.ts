@@ -11,4 +11,4 @@ const asyncWrapper = (fn: RequestHandler) => {
     };
 };
 
-module.exports = asyncWrapper;
+export default asyncWrapper;
