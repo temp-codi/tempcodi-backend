@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  title: tempCodi-main
+  contact: {}
+  version: '1.0'
+servers:
+  - url: 'https://tempcodi-backend.onrender.com/api'
+    variables: {}
+paths:
+  /geolocation:
+    post:
+      tags:
+        - Misc
+      summary: geolocation
+      operationId: geolocation
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/geolocationrequest'
+                - example:
+                    lon: '139.818482'
+                    lat: '35.618791'
+            example:
+              lon: '139.818482'
+              lat: '35.618791'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+components:
+  schemas:
+    geolocationrequest:
+      title: geolocationrequest
+      required:
+        - lon
+        - lat
+      type: object
+      properties:
+        lon:
+          type: string
+        lat:
+          type: string
+      example:
+        lon: '139.818482'
+        lat: '35.618791'
+tags:
+  - name: Misc
+    description: ''
