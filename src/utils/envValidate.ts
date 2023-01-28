@@ -7,6 +7,7 @@ const validateEnv = (): void => {
         GOOGLE_API_KEY: str(),
         GOOGLE_SEARCH_ENGINE_ID: str(),
         OPEN_GPT_API_KEY: str(),
+        GEO_CODING: str(),
         PORT: port({ default: 3000 }),
     });
 };

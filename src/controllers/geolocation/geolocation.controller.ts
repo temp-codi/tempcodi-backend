@@ -22,7 +22,9 @@ class GeolocationController implements Controller {
     private findCity = asyncWrapper(async (req, res) => {
         try {
             const { lat, lon } = req.body;
+            console.log(lat, lon);
             const cityInfo = await reverseGeoApi(lat, lon);
+            console.log(cityInfo);
             return res.status(StatusCodes.OK).json({ cityInfo });
         } catch (err) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
