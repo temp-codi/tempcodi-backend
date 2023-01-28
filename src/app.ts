@@ -24,6 +24,7 @@ class App {
         this.initializeHome();
         this.initializeControllers(controllers);
         this.initializeErrorHandling();
+        this.initializeSwagger();
     }
 
     private initializeMiddleware(): void {
@@ -41,13 +42,6 @@ class App {
             })
         );
         this.express.use(compression()); // makes api request super fast (268.75 faster)
-
-        // swagger
-        this.express.use(
-            '/api-docs',
-            swaggerUI.serve,
-            swaggerUI.setup(this.initializeSwagger())
-        );
     }
 
     private initializeHome(): void {
@@ -70,7 +64,14 @@ class App {
     }
 
     private initializeSwagger() {
-        return YAML.load(path.join(__dirname, '../build/swagger.yaml'));
+        const swaggerDoc = YAML.load(
+            path.join(__dirname, '../build/swagger.yaml')
+        );
+        this.express.use(
+            '/api-docs',
+            swaggerUI.serve,
+            swaggerUI.setup(swaggerDoc)
+        );
     }
 
     public listen(): void {
