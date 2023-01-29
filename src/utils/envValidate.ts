@@ -9,6 +9,7 @@ const validateEnv = (): void => {
         OPEN_GPT_API_KEY: str(),
         GEO_CODING: str(),
         PORT: port({ default: 3000 }),
+        OPEN_CAGE_API_KEY: str(),
     });
 };
 
