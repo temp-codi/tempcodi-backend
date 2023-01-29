@@ -35,6 +35,35 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "googleImg",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"keyword\": \"stupid\", \r\n    \"pageNo\": 2, \r\n    \"gender\": \"male\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8280/api/googleImg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8280",
+					"path": [
+						"api",
+						"googleImg"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

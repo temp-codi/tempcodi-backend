@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+/** 좌표로 도시 정보 반환 */
 const reverseGeoApi = async (lat: string, lon: string) => {
     const {
         data: {
