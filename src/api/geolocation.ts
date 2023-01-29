@@ -7,7 +7,7 @@ const reverseGeoApi = async (lat: string, lon: string) => {
             results: [{ components }],
         },
     } = await axios.get(
-        `https://api.opencagedata.com/geocode/v1/json?key=e8c5f280f4f64f7c93e8634aac3ffaaf&q=52.3877830%2C9.7334394&pretty=1`
+        `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${process.env.OPEN_CAGE_API_KEY}`
     );
     return components;
 };
