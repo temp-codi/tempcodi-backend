@@ -47,9 +47,7 @@ class App {
     private initializeHome(): void {
         this.express.get('/', (req, res) => {
             console.log(req);
-            res.send(
-                '<h1>TEMPCODI API</h1><a href="/api-docs">Documentation</a>'
-            );
+            res.redirect('/api-docs');
         });
     }
 
