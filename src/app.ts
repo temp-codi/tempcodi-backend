@@ -7,6 +7,8 @@ import compression from 'compression';
 const xss = require('xss-clean');
 import Controller from '@/utils/interfaces/controller';
 import { errorMiddleware } from '@/middlewares/index';
+import mongoose from 'mongoose';
+
 // swagger
 import * as path from 'path';
 const swaggerUI = require('swagger-ui-express');
@@ -61,7 +63,7 @@ class App {
         this.express.use(errorMiddleware);
     }
 
-    private initializeSwagger() {
+    private initializeSwagger(): void {
         const swaggerDoc = YAML.load(
             path.join(__dirname, '../build/swagger.yaml')
         );
@@ -72,10 +74,20 @@ class App {
         );
     }
 
+    private initializeMongoDB() {
+        mongoose.connect(process.env.MONGO_URI || '');
+    }
+
     public listen(): void {
-        this.express.listen(this.port, () => {
-            console.log(`App listening on port ${this.port}`);
-        });
+        try {
+            this.initializeMongoDB();
+            console.log('Conencted to DB');
+            this.express.listen(this.port, () => {
+                console.log(`App listening on port ${this.port}`);
+            });
+        } catch (err) {
+            console.log(err);
+        }
     }
 }
 
