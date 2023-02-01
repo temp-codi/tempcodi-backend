@@ -25,4 +25,4 @@ const CitySchema = new mongoose.Schema({
     pollution_kr: { type: String, required: true },
 });
 
-module.exports = mongoose.set('strictQuery', true).model('cities', CitySchema);
+export default mongoose.set('strictQuery', true).model('cities', CitySchema);
