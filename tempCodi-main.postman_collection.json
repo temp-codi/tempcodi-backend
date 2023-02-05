@@ -64,6 +64,64 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "getTempData",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lon\": \"139.818482\",\r\n    \"lat\": \"35.618791\", \r\n    \"city\": \"Koto\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8280/api/temp",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8280",
+					"path": [
+						"api",
+						"temp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "openai",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"weather\": \"warm\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8280/api/openai",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8280",
+					"path": [
+						"api",
+						"openai"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

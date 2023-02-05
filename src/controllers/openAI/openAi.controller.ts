@@ -4,6 +4,7 @@ import Controller from '@/utils/interfaces/controller';
 import { asyncWrapper, validationMiddleware } from '@/middlewares/index';
 import { StatusCodes } from 'http-status-codes';
 import validate from './openAi.validation';
+import { extractItems } from '@/utils/extractItems';
 
 class OpenAiController implements Controller {
     public path = '/openai';
@@ -31,8 +32,9 @@ class OpenAiController implements Controller {
                     choices: [{ text }],
                 },
             } = response;
-            console.log(text);
-            return res.status(StatusCodes.OK).json({ response: text });
+
+            const arr = extractItems(text);
+            return res.status(StatusCodes.OK).json({ response: arr });
         } catch (err) {
             console.log(err);
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
