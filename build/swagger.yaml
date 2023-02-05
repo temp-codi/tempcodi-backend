@@ -1,107 +1,195 @@
 openapi: 3.0.0
 info:
-  title: tempCodi-main
-  contact: {}
-  version: '1.0'
+    title: tempCodi-main
+    contact: {}
+    version: '1.0'
 servers:
-  - url: 'https://tempcodi-backend.onrender.com/api'
-    variables: {}
+    - url: https://tempcodi-backend.onrender.com/api
+      variables: {}
+    - url: http://localhost:8280/api
+      variables: {}
 paths:
-  /geolocation:
-    post:
-      tags:
-        - Misc
-      summary: geolocation
-      operationId: geolocation
-      parameters: []
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              allOf:
-                - $ref: '#/components/schemas/geolocationrequest'
-                - example:
-                    lon: '139.818482'
-                    lat: '35.618791'
-            example:
-              lon: '139.818482'
-              lat: '35.618791'
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'https://tempcodi-backend.onrender.com/api'
-          variables: {}
-  /googleImg:
-    post:
-      tags:
-        - Misc
-      summary: googleImg
-      operationId: googleImg
-      parameters: []
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              allOf:
-                - $ref: '#/components/schemas/googleImgRequest'
-                - example:
-                    keyword: stupid
-                    pageNo: 2
-                    gender: male
-            example:
-              keyword: stupid
-              pageNo: 2
-              gender: male
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'https://tempcodi-backend.onrender.com/api'
-          variables: {}
+    /geolocation:
+        post:
+            tags:
+                - Misc
+            summary: geolocation
+            operationId: geolocation
+            parameters: []
+            requestBody:
+                description: ''
+                content:
+                    application/json:
+                        schema:
+                            allOf:
+                                - $ref: '#/components/schemas/geolocationrequest'
+                                - example:
+                                      lon: '139.818482'
+                                      lat: '35.618791'
+                        example:
+                            lon: '139.818482'
+                            lat: '35.618791'
+                required: true
+            responses:
+                '200':
+                    description: ''
+                    headers: {}
+            deprecated: false
+            servers:
+                - url: https://tempcodi-backend.onrender.com/api
+                  variables: {}
+    /googleImg:
+        post:
+            tags:
+                - Misc
+            summary: googleImg
+            operationId: googleImg
+            parameters: []
+            requestBody:
+                description: ''
+                content:
+                    application/json:
+                        schema:
+                            allOf:
+                                - $ref: '#/components/schemas/googleImgRequest'
+                                - example:
+                                      keyword: stupid
+                                      pageNo: 2
+                                      gender: male
+                        example:
+                            keyword: stupid
+                            pageNo: 2
+                            gender: male
+                required: true
+            responses:
+                '200':
+                    description: ''
+                    headers: {}
+            deprecated: false
+            servers:
+                - url: https://tempcodi-backend.onrender.com/api
+                  variables: {}
+    /temp:
+        post:
+            tags:
+                - Misc
+            summary: getTempData
+            operationId: getTempData
+            parameters: []
+            requestBody:
+                description: ''
+                content:
+                    application/json:
+                        schema:
+                            allOf:
+                                - $ref: '#/components/schemas/getTempDataRequest'
+                                - example:
+                                      lon: '139.818482'
+                                      lat: '35.618791'
+                                      city: Koto
+                        example:
+                            lon: '139.818482'
+                            lat: '35.618791'
+                            city: Koto
+                required: true
+            responses:
+                '200':
+                    description: ''
+                    headers: {}
+            deprecated: false
+            servers:
+                - url: https://tempcodi-backend.onrender.com/api
+                  variables: {}
+    /openai:
+        post:
+            tags:
+                - Misc
+            summary: openai
+            operationId: openai
+            parameters: []
+            requestBody:
+                description: ''
+                content:
+                    application/json:
+                        schema:
+                            allOf:
+                                - $ref: '#/components/schemas/openairequest'
+                                - example:
+                                      weather: warm
+                        example:
+                            weather: warm
+                required: true
+            responses:
+                '200':
+                    description: ''
+                    headers: {}
+            deprecated: false
+            servers:
+                - url: https://tempcodi-backend.onrender.com/api
+                  variables: {}
 components:
-  schemas:
-    geolocationrequest:
-      title: geolocationrequest
-      required:
-        - lon
-        - lat
-      type: object
-      properties:
-        lon:
-          type: string
-        lat:
-          type: string
-      example:
-        lon: '139.818482'
-        lat: '35.618791'
-    googleImgRequest:
-      title: googleImgRequest
-      required:
-        - keyword
-        - pageNo
-        - gender
-      type: object
-      properties:
-        keyword:
-          type: string
-        pageNo:
-          type: integer
-          format: int32
-        gender:
-          type: string
-      example:
-        keyword: stupid
-        pageNo: 2
-        gender: male
+    schemas:
+        geolocationrequest:
+            title: geolocationrequest
+            required:
+                - lon
+                - lat
+            type: object
+            properties:
+                lon:
+                    type: string
+                lat:
+                    type: string
+            example:
+                lon: '139.818482'
+                lat: '35.618791'
+        googleImgRequest:
+            title: googleImgRequest
+            required:
+                - keyword
+                - pageNo
+                - gender
+            type: object
+            properties:
+                keyword:
+                    type: string
+                pageNo:
+                    type: integer
+                    format: int32
+                gender:
+                    type: string
+            example:
+                keyword: stupid
+                pageNo: 2
+                gender: male
+        getTempDataRequest:
+            title: getTempDataRequest
+            required:
+                - lon
+                - lat
+                - city
+            type: object
+            properties:
+                lon:
+                    type: string
+                lat:
+                    type: string
+                city:
+                    type: string
+            example:
+                lon: '139.818482'
+                lat: '35.618791'
+                city: Koto
+        openairequest:
+            title: openairequest
+            required:
+                - weather
+            type: object
+            properties:
+                weather:
+                    type: string
+            example:
+                weather: warm
 tags:
-  - name: Misc
-    description: ''
+    - name: Misc
+      description: ''
