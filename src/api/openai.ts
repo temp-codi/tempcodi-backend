@@ -1,10 +1,6 @@
 import axios from 'axios';
 
-interface IOpenGPT {
-    weather: string;
-}
-
-const useOpenGPT = async ({ weather }: IOpenGPT) => {
+const useOpenGPT = async (weather: string) => {
     const response = await axios({
         method: 'post',
         url: 'https://api.openai.com/v1/completions',
@@ -22,6 +18,12 @@ const useOpenGPT = async ({ weather }: IOpenGPT) => {
             presence_penalty: 0,
         },
     });
+    const {
+        data: {
+            choices: [{ text }],
+        },
+    } = response;
+    console.log(text);
     return response;
 };
 

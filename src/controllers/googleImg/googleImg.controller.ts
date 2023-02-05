@@ -31,7 +31,7 @@ class GoogleImgController implements Controller {
             return res.status(StatusCodes.OK).json({ googleInfo });
         } catch (err) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-                message: 'problem with googleImg api - check bigDataCloud',
+                message: 'problem with googleImg api',
             });
         }
     });

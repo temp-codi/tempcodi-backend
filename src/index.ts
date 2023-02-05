@@ -6,6 +6,7 @@ import {
     GeolocationController,
     GoogleImgController,
     CreateOrUpdateCityTemp,
+    OpenAiController,
 } from './controllers';
 
 validateEnv();
@@ -15,6 +16,7 @@ const app = new App(
         new GeolocationController(),
         new GoogleImgController(),
         new CreateOrUpdateCityTemp(),
+        new OpenAiController(),
     ],
     Number(process.env.PORT)
 );
