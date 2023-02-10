@@ -1,7 +1,7 @@
 import { IApiWeatherData, IUpdatedWeatherData } from './interfaces/weather';
 
 /** converts to appropriate schema for mongoDB */
-export const weatherApiUpdateList = (
+export const extractWeatherData = (
     list: IApiWeatherData[]
 ): IUpdatedWeatherData[] => {
     return list.map((item) => {

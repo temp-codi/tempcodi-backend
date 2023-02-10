@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import validate from './weather.validation';
 import City from './weather.model';
 import { getTempData, pollutionApi } from '@/api/weather';
-import { pollutionCalc } from '@/utils/pollutionCalc';
+import { extractWeatherData, pollutionCalc } from '@/utils/index';
 
 class CreateOrUpdateCityTemp implements Controller {
     public path = '/temp';
@@ -30,16 +30,18 @@ class CreateOrUpdateCityTemp implements Controller {
 
             const isExist = await this.isCityExist(city);
 
-            const weatherData = await getTempData(city);
+            const weatherDataApi = await getTempData(city);
+            const updatedWeatherData = extractWeatherData(weatherDataApi);
+
             const pollutionData = await pollutionApi(lat, lon);
             const pollutionIndex = pollutionCalc(pollutionData);
+
             const { en, kr } = pollutionIndex;
-            console.log(pollutionIndex);
 
             const response = await City.create({
-                city_name: city, // req.body data
+                city_name: city,
                 api_called_date: new Date(),
-                list: [],
+                list: updatedWeatherData,
                 pollution_en: en,
                 pollution_kr: kr,
             });
