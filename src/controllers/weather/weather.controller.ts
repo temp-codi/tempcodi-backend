@@ -39,17 +39,7 @@ class CreateOrUpdateCityTemp implements Controller {
             const response = await City.create({
                 city_name: city, // req.body data
                 api_called_date: new Date(),
-                list: [
-                    {
-                        dt: 2,
-                        temp: 2,
-                        feels_like: 2,
-                        humidity: 2,
-                        cloud_in_percentage: 2,
-                        wind_speed: 2,
-                        weather_id: 2,
-                    },
-                ],
+                list: [],
                 pollution_en: en,
                 pollution_kr: kr,
             });
