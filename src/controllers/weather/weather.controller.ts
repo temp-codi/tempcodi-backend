@@ -4,6 +4,8 @@ import { asyncWrapper, validationMiddleware } from '@/middlewares/index';
 import { StatusCodes } from 'http-status-codes';
 import validate from './weather.validation';
 import City from './weather.model';
+import { getTempData, pollutionApi } from '@/api/weather';
+import { pollutionCalc } from '@/utils/pollutionCalc';
 
 class CreateOrUpdateCityTemp implements Controller {
     public path = '/temp';
@@ -25,20 +27,44 @@ class CreateOrUpdateCityTemp implements Controller {
     private createOrUpdateCityTemp = asyncWrapper(async (req, res) => {
         try {
             const { lat, lon, city } = req.body;
-            console.log(lat, lon, city);
 
             const isExist = await this.isCityExist(city);
-            console.log(isExist);
+
+            const weatherData = await getTempData(city);
+            const pollutionData = await pollutionApi(lat, lon);
+            const pollutionIndex = pollutionCalc(pollutionData);
+            const { en, kr } = pollutionIndex;
+            console.log(pollutionIndex);
+
+            const response = await City.create({
+                city_name: city, // req.body data
+                api_called_date: new Date(),
+                list: [
+                    {
+                        dt: 2,
+                        temp: 2,
+                        feels_like: 2,
+                        humidity: 2,
+                        cloud_in_percentage: 2,
+                        wind_speed: 2,
+                        weather_id: 2,
+                    },
+                ],
+                pollution_en: en,
+                pollution_kr: kr,
+            });
+            console.log(response);
 
             return res.status(StatusCodes.OK).json({ msg: 'success' });
         } catch (err) {
+            console.log(err);
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-                message: 'cannot get weather data',
+                message: 'mongoDB error',
             });
         }
     });
 
-    private isCityExist = async (city: string): Promise<boolean> => {
+    private isCityExist = async (city: string): Promise<boolean | null> => {
         return await City.findOne({ city_name: city });
     };
 

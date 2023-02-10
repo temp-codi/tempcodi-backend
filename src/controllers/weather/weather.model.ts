@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import City from './weather.interface';
 
 const CitySchema = new mongoose.Schema({
     city_name: {
@@ -25,4 +26,6 @@ const CitySchema = new mongoose.Schema({
     pollution_kr: { type: String, required: true },
 });
 
-export default mongoose.set('strictQuery', true).model('cities', CitySchema);
+export default mongoose
+    .set('strictQuery', true)
+    .model<City>('cities', CitySchema);
