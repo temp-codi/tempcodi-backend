@@ -5,7 +5,15 @@ import { StatusCodes } from 'http-status-codes';
 import validate from './weather.validation';
 import City from './weather.model';
 import { getTempData, pollutionApi } from '@/api/weather';
-import { extractWeatherData, pollutionCalc } from '@/utils/index';
+import {
+    extractWeatherData,
+    pollutionCalc,
+    validateApiToday,
+} from '@/utils/index';
+import {
+    IApiWeatherData,
+    IUpdatedWeatherData,
+} from '@/utils/interfaces/weather';
 
 class CreateOrUpdateCityTemp implements Controller {
     public path = '/temp';
@@ -30,22 +38,16 @@ class CreateOrUpdateCityTemp implements Controller {
 
             const isExist = await this.isCityExist(city);
 
-            const weatherDataApi = await getTempData(city);
-            const updatedWeatherData = extractWeatherData(weatherDataApi);
-
-            const pollutionData = await pollutionApi(lat, lon);
-            const pollutionIndex = pollutionCalc(pollutionData);
-
-            const { en, kr } = pollutionIndex;
-
-            const response = await City.create({
-                city_name: city,
-                api_called_date: new Date(),
-                list: updatedWeatherData,
-                pollution_en: en,
-                pollution_kr: kr,
-            });
-            console.log(response);
+            if (!isExist) {
+                const newCityWeatherData = await this.createNewCityWeatherData({
+                    city,
+                    lat,
+                    lon,
+                });
+                return res
+                    .status(StatusCodes.OK)
+                    .json({ msg: 'success', data: newCityWeatherData });
+            }
 
             return res.status(StatusCodes.OK).json({ msg: 'success' });
         } catch (err) {
@@ -60,7 +62,35 @@ class CreateOrUpdateCityTemp implements Controller {
         return await City.findOne({ city_name: city });
     };
 
+    private createNewCityWeatherData = async ({
+        city,
+        lat,
+        lon,
+    }: ICreateWeather) => {
+        const weatherDataApi = await getTempData(city);
+        const updatedWeatherData = extractWeatherData(weatherDataApi);
+
+        const pollutionData = await pollutionApi(lat, lon);
+        const pollutionIndex = pollutionCalc(pollutionData);
+
+        const { en, kr } = pollutionIndex;
+
+        return await City.create({
+            city_name: city,
+            api_called_date: new Date(),
+            list: updatedWeatherData,
+            pollution_en: en,
+            pollution_kr: kr,
+        });
+    };
+
     private isCalledToday = async () => {};
+}
+
+interface ICreateWeather {
+    city: string;
+    lat: string;
+    lon: string;
 }
 
 export default CreateOrUpdateCityTemp;
