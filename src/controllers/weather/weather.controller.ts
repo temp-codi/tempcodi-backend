@@ -48,10 +48,17 @@ class CreateOrUpdateCityTemp implements Controller {
                         .status(StatusCodes.OK)
                         .json({ msg: 'success', data: existingCity });
                 } else {
+                    const updatedCityData =
+                        this.WeatherService.updateExistingCityData({
+                            city,
+                            lat,
+                            lon,
+                        });
+                    return res
+                        .status(StatusCodes.OK)
+                        .json({ msg: 'success', data: updatedCityData });
                 }
             }
-
-            return res.status(StatusCodes.OK).json({ msg: 'success' });
         } catch (err) {
             console.log(err);
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
