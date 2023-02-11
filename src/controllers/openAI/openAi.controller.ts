@@ -25,8 +25,8 @@ class OpenAiController implements Controller {
 
     private getOpenAiresponse = asyncWrapper(async (req, res) => {
         try {
-            const { weather } = req.body;
-            const response = await useOpenGPT(weather);
+            const { weather, gender } = req.body;
+            const response = await useOpenGPT(weather, gender);
             const {
                 data: {
                     choices: [{ text }],
