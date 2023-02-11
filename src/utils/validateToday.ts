@@ -1,4 +1,4 @@
-export const validateApiToday = (api_called_date: Date) => {
+export const validateApiToday = (api_called_date: string): boolean => {
     // Parse the date string into a Date object
     const date = new Date(api_called_date);
 

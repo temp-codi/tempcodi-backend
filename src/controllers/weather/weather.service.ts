@@ -1,4 +1,5 @@
 import City from './weather.model';
+import ICity from './weather.interface';
 import { getTempData, pollutionApi } from '@/api/weather';
 import {
     extractWeatherData,
@@ -7,8 +8,12 @@ import {
 } from '@/utils/index';
 
 class WeatherService {
-    public isCityExist = async (city: string): Promise<boolean | null> => {
+    public isCityExist = async (city: string): Promise<ICity | null> => {
         return await City.findOne({ city_name: city });
+    };
+
+    public isCalledToday = (city: ICity): boolean => {
+        return validateApiToday(city.api_called_date);
     };
 
     public createNewCityWeatherData = async ({
@@ -33,7 +38,7 @@ class WeatherService {
         });
     };
 
-    public isCalledToday = async () => {};
+    public updateExistingCityData = async () => {};
 }
 
 interface ICreateWeather {

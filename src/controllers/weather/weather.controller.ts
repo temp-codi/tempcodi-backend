@@ -27,9 +27,9 @@ class CreateOrUpdateCityTemp implements Controller {
         try {
             const { lat, lon, city } = req.body;
 
-            const isExist = await this.WeatherService.isCityExist(city);
+            const existingCity = await this.WeatherService.isCityExist(city);
 
-            if (!isExist) {
+            if (!existingCity) {
                 const newCityWeatherData =
                     await this.WeatherService.createNewCityWeatherData({
                         city,
@@ -39,6 +39,16 @@ class CreateOrUpdateCityTemp implements Controller {
                 return res
                     .status(StatusCodes.OK)
                     .json({ msg: 'success', data: newCityWeatherData });
+            } else {
+                const isCalledToday =
+                    this.WeatherService.isCalledToday(existingCity);
+
+                if (isCalledToday) {
+                    return res
+                        .status(StatusCodes.OK)
+                        .json({ msg: 'success', data: existingCity });
+                } else {
+                }
             }
 
             return res.status(StatusCodes.OK).json({ msg: 'success' });
