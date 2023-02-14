@@ -100,6 +100,33 @@ paths:
             servers:
                 - url: https://tempcodi-backend.onrender.com/api
                   variables: {}
+    /getCode:
+        post:
+            tags:
+                - Misc
+            summary: getWeatherCode
+            operationId: getWeatherCode
+            parameters: []
+            requestBody:
+                description: ''
+                content:
+                    application/json:
+                        schema:
+                            allOf:
+                                - $ref: '#/components/schemas/getTempDataRequest'
+                                - example:
+                                      code: 500
+                        example:
+                            code: 500
+                required: true
+            responses:
+                '200':
+                    description: ''
+                    headers: {}
+            deprecated: false
+            servers:
+                - url: https://tempcodi-backend.onrender.com/api
+                  variables: {}
     /openai:
         post:
             tags:
