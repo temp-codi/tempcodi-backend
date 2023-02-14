@@ -7,6 +7,7 @@ import {
     GoogleImgController,
     CreateOrUpdateCityTemp,
     OpenAiController,
+    GetWeatherCodeController,
 } from './controllers';
 
 validateEnv();
@@ -17,6 +18,7 @@ const app = new App(
         new GoogleImgController(),
         new CreateOrUpdateCityTemp(),
         new OpenAiController(),
+        new GetWeatherCodeController(),
     ],
     Number(process.env.PORT)
 );
